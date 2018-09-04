@@ -165,3 +165,16 @@ pageViews
 | summarize count() by tostring(pageVisited)  
 | top 10 by count_ desc
 ```
+### 18. SelfJoin, RegEx Filter and extract Json Data
+```
+traces
+| where timestamp > ago(3d)
+| join kind= inner (
+   traces
+    | extend jsonObj = parse_json(message) 
+    | where timestamp > ago(3d)
+    | where message matches regex ".*RAM01355"
+    | limit 1
+) on operation_Id 
+| order by timestamp asc 
+```
