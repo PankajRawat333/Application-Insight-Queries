@@ -179,7 +179,7 @@ traces
 | order by timestamp asc 
 ```
 
-### 19. Search any data by search keyword
+### 19. Search any data in any column by search keyword
 ```
 traces
     | extend jsonObj = parse_json(message) 
