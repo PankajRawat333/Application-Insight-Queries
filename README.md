@@ -178,3 +178,14 @@ traces
 ) on operation_Id 
 | order by timestamp asc 
 ```
+
+### 19. Search any data by search keyword
+```
+traces
+    | extend jsonObj = parse_json(message) 
+    | where operation_Name == "ApplicationName" 
+    | where timestamp > ago(30d)
+    | search "2c2373f5-5adb-4552-9b44-f303770c4abc"  
+    | limit 50
+    | order by timestamp asc 
+```
