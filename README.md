@@ -189,3 +189,23 @@ traces
     | limit 50
     | order by timestamp asc 
 ```
+
+### 20. Counting the number of unique VM in 1 minute.
+```
+customMetrics
+| where timestamp > start
+| where timestamp < start +1m
+| where name == "Function1 Successes" 
+| summarize uniqueVMCount=dcount(cloud_RoleInstance)
+```
+
+### 21. Check work distrubution acroll VM
+```
+let start = datetime(2019-01-25T00:00);
+customMetrics
+| where timestamp > start
+| where timestamp < start +1m
+| where name == "Function1 Successes" 
+| summarize sum(value) by cloud_RoleInstance
+| render piechart 
+```
