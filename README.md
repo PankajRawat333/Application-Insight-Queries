@@ -192,6 +192,7 @@ traces
 
 ### 20. Counting the number of unique VM in 1 minute.
 ```
+let start = datetime(2019-01-25T00:00);
 customMetrics
 | where timestamp > start
 | where timestamp < start +1m
