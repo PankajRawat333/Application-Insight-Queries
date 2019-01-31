@@ -210,3 +210,14 @@ customMetrics
 | summarize sum(value) by cloud_RoleInstance
 | render piechart 
 ```
+
+### 22. Check application metrics (Successes, Failures and Duration).
+```
+let start = datetime(2019-01-30T00:00);
+customMetrics
+| where timestamp > start
+| where timestamp < start +1d
+| where name in ("GeoFenceEHFunc Successes", "GeoFenceEHFunc Failures" ,"GeoFenceEHFunc Duration")
+| summarize sum(value) by name, timestamp
+| render timechart     
+```
