@@ -221,3 +221,20 @@ customMetrics
 | summarize sum(value) by name, timestamp
 | render timechart     
 ```
+
+### 23. Query with IN clause or subquery
+```
+let operationids = toscalar ( // convert single column to value
+traces
+| where operation_Name == "TicketEventRoutingFunction" and message contains "1560" 
+| summarize makeset(operation_Id));
+traces
+| where operation_Id in (operationids)   
+```
+
+### 24. Get distinct records
+```
+traces
+| where operation_Name == "TicketEventRoutingFunction" and message contains "1560" 
+| distinct operation_Id  
+```
