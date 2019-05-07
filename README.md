@@ -238,3 +238,18 @@ traces
 | where operation_Name == "TicketEventRoutingFunction" and message contains "1560" 
 | distinct operation_Id  
 ```
+
+### 25. Get Azure durable function trace logs from Application Insights
+```
+traces
+| extend functionName = tostring(customDimensions["prop__functionName"]) 
+| extend instanceId = tostring(customDimensions["prop__instanceId"]) 
+| extend state = tostring(customDimensions["prop__state"]) 
+| extend isReplay = tobool(customDimensions["prop__isReplay"]) 
+| extend output = tostring(customDimensions["prop__output"]) 
+| extend functionType = tostring(customDimensions["prop__functionType"]) 
+| where isReplay != true
+| project timestamp, instanceId , functionName ,state, output , appName = cloud_RoleName , functionType 
+| summarize arg_max(timestamp, *) by instanceId 
+| order by timestamp desc nulls last 
+```
