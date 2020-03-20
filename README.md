@@ -217,7 +217,7 @@ let start = datetime(2019-01-30T00:00);
 customMetrics
 | where timestamp > start
 | where timestamp < start +1d
-| where name in ("GeoFenceEHFunc Successes", "GeoFenceEHFunc Failures" ,"GeoFenceEHFunc Duration")
+| where name in ("Func Successes", "Func Failures" ,"Func Duration")
 | summarize sum(value) by name, timestamp
 | render timechart     
 ```
@@ -226,7 +226,7 @@ customMetrics
 ```
 let operationids = toscalar ( // convert single column to value
 traces
-| where operation_Name == "TicketEventRoutingFunction" and message contains "1560" 
+| where operation_Name == "Function" and message contains "1560" 
 | summarize makeset(operation_Id));
 traces
 | where operation_Id in (operationids)   
@@ -235,7 +235,7 @@ traces
 ### 24. Get distinct records
 ```
 traces
-| where operation_Name == "TicketEventRoutingFunction" and message contains "1560" 
+| where operation_Name == "Function" and message contains "1560" 
 | distinct operation_Id  
 ```
 
